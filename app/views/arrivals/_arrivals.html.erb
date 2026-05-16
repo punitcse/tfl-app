@@ -1,0 +1,30 @@
+<% if grouped_arrivals.empty? %>
+  <p class="text-gray-600">No live arrivals right now.</p>
+<% else %>
+  <% grouped_arrivals.each do |platform_name, trains| %>
+    <section class="mb-16">
+      <h2 class="text-lg font-semibold mb-2"><%= platform_name %></h2>
+
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="border-b border-gray-300">
+            <th class="py-4 pr-4 font-medium">Destination</th>
+            <th class="py-4 pr-4 font-medium">Line name</th>
+            <th class="py-4 pr-4 font-medium">Expected</th>
+            <th class="py-4 font-medium">Due in</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% trains.each do |arrival| %>
+            <tr class="border-b border-gray-200">
+              <td class="py-4 pr-4"><%= arrival.destination %></td>
+              <td class="py-4 pr-4"><%= arrival.line_name %></td>
+              <td class="py-4 pr-4"><%= arrival.expected_arrival&.in_time_zone("London")&.strftime("%H:%M") %></td>
+              <td class="py-4"><%= arrival.display_time %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </section>
+  <% end %>
+<% end %>
